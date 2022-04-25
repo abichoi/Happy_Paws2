@@ -7,27 +7,14 @@ import 'AddProfile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _HomePageWidget extends StatefulWidget {
+  const _HomePageWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Welcome to Flutter',
-      home: MyStatefulWidget(),
-    );
-  }
+  State<_HomePageWidget> createState() => _HomePageWidgetState();
 }
 
-class Homepage extends StatelessWidget{
+class _HomePageWidgetState extends State<_HomePageWidget>{
   final title1_Home = new Text('Pet Profiles', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),);
   final title2_Home = new Text('Contact', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),);
   final margin = const EdgeInsets.only(bottom: 10.0, right: 10.0, left: 10.0);
@@ -125,7 +112,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   ];
 
   final _PageOption = [
-    Homepage(),
+    _HomePageWidget(),
     Text('Appointment', style: optionStyle,),
     Text('Storage',style: optionStyle,),
     Text('Shop', style: optionStyle, ),
@@ -193,6 +180,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         showUnselectedLabels: true,
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget{
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      body: const _HomePageWidget(),
     );
   }
 }

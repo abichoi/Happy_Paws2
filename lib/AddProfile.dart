@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 // import 'dropdownsex.dart';
 // import 'datepicker.dart';
 
@@ -12,11 +15,11 @@ class AddProfileFormWidget extends StatefulWidget {
 
 
 class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
-  late DatabaseReference _ref;
+  // late DatabaseReference _ref;
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _species = TextEditingController();
-  String _sex = '';
+  String _sex = 'F';
   final _breed = TextEditingController();
   final _color = TextEditingController();
   final _dob = TextEditingController();
@@ -24,10 +27,10 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
   String _showvalue = 'F';
 
   @override
-  void initState() {
-    super.initState();
-    _ref = FirebaseDatabase.instance.reference().child('PetProfile');
-  }
+  // void initState() {
+  //   super.initState();
+  //   // _ref = FirebaseDatabase.instance.reference().child('PetProfile');
+  // }
 
   Widget build(BuildContext context) {
     //form widget
@@ -150,8 +153,8 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
           TextFormField(
             controller: _dob,
             decoration: const InputDecoration(
-              hintText: 'Enter the species',
-              labelText: 'Species',
+              hintText: 'Enter the date of birth (dd/mm/yyyy)',
+              labelText: 'Date of Birth',
               labelStyle: TextStyle(fontSize: 18),
             ),
             validator: (String? value) {
@@ -189,19 +192,20 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
     String color = _color.text;
     String dob = _dob.text;
 
-    Map<String, String> petprofile = {
-      'name': name,
-      'species': species,
-      'sex': sex,
-      'breed': breed,
-      'color': color,
-      'dob': dob,
-    };
+    // Map<String, String> petprofile = {
+    //   'name': name,
+    //   'species': species,
+    //   'sex': sex,
+    //   'breed': breed,
+    //   'color': color,
+    //   'dob': dob,
+    // };
 
-    // _ref.push().set(petprofile).then((value) {
-    //   Navigator.pop(context);
-    // });
+    FirebaseFirestore.instance
+        .collection('Pet_Profile')
+        .add({'name': name, 'species': species, 'sex': sex, 'breed': breed, 'color': color, 'dob': dob});
   }
+
 }
 
 
