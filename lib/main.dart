@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:petapp2/Homepage.dart';
+import 'Navigation.dart';
 import 'firebase_options.dart';
 import 'Login.dart';
 import 'Register.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'HappyPaws',
-      home: LoginPage(),
+      home: BottomNavWidget(),
     );
   }
 }

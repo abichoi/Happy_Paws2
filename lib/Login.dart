@@ -8,20 +8,32 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-class _LoginFormWidget extends StatefulWidget {
-  const _LoginFormWidget({Key? key}) : super(key: key);
-
+class LoginPage extends StatefulWidget {
   @override
-  State<_LoginFormWidget> createState() => _LoginFormWidgetState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginFormWidgetState extends State<_LoginFormWidget> {
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Login"),
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration:  const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
+                ),
+              ),
+            )
+        ),
+    body:  Form(
         key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +84,7 @@ class _LoginFormWidgetState extends State<_LoginFormWidget> {
                       .signIn(email: _emailController.text, password: _passwordController.text)
                       .then((result) {
                     if (result == null) {
-                      Navigator.pushReplacement(context,
+                      Navigator.push(context,
                           MaterialPageRoute(builder: (context) => BottomNavWidget()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -91,7 +103,7 @@ class _LoginFormWidgetState extends State<_LoginFormWidget> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const RegisterPage(),
+                    builder: (context) => RegisterPage(),
                   ),
                 );
               },
@@ -99,33 +111,7 @@ class _LoginFormWidgetState extends State<_LoginFormWidget> {
             ),
           ],
         )
-    );
-  }
-}
-
-class LoginPage extends StatelessWidget{
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("Login"),
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
-              ),
-            ),
-          )
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: _LoginFormWidget(),
-      ),
+    )
     );
   }
 }

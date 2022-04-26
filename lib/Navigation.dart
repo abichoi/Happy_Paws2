@@ -22,7 +22,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
   ];
 
   final _PageOption = [
-    const HomePage(),
+    HomePage(),
     const Text('Appointment', style: optionStyle,),
     const Text('Storage',style: optionStyle,),
     const Text('Shop', style: optionStyle, ),

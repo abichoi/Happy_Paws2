@@ -7,52 +7,64 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-class _RegisterFormWidget extends StatefulWidget {
-  const _RegisterFormWidget({Key? key}) : super(key: key);
-
+class RegisterPage extends StatefulWidget {
   @override
-  State<_RegisterFormWidget> createState() => _RegisterFormWidgetState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterFormWidgetState extends State<_RegisterFormWidget> {
+class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                hintText: 'Enter the Email',
-                labelText: 'Email',
-                labelStyle: TextStyle(fontSize: 18),
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Colors.black,
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Create Account"),
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration:  const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
                 ),
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter the Email';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                hintText: 'Enter the password',
-                labelText: 'Password',
-                labelStyle: TextStyle(fontSize: 18),
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Colors.black,
+            )
+        ),
+        body: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter the Email',
+                    labelText: 'Email',
+                    labelStyle: TextStyle(fontSize: 18),
+                    prefixIcon: Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    ),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the Email';
+                    }
+                    return null;
+                    },
                 ),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter the password',
+                    labelText: 'Password',
+                    labelStyle: TextStyle(fontSize: 18),
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      color: Colors.black,
+                    ),
               ),
               obscureText: true,
 
@@ -71,7 +83,7 @@ class _RegisterFormWidgetState extends State<_RegisterFormWidget> {
                       .signUp(email: _emailController.text, password: _passwordController.text)
                       .then((result) {
                     if (result == null) {
-                      Navigator.pushReplacement(context,
+                      Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -90,7 +102,7 @@ class _RegisterFormWidgetState extends State<_RegisterFormWidget> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) => LoginPage(),
                   ),
                 );
               },
@@ -98,33 +110,7 @@ class _RegisterFormWidgetState extends State<_RegisterFormWidget> {
             ),
           ],
         )
-    );
-  }
-}
-
-class RegisterPage extends StatelessWidget{
-  const RegisterPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("Create Account"),
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
-              ),
-            ),
-          )
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: _RegisterFormWidget(),
-      ),
+    )
     );
   }
 }
