@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Register.dart';
+import 'Navigation.dart';
 import 'Homepage.dart';
 import 'authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -72,7 +73,7 @@ class _LoginFormWidgetState extends State<_LoginFormWidget> {
                       .then((result) {
                     if (result == null) {
                       Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => BottomNavWidget()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(

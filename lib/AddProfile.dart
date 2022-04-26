@@ -35,6 +35,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
   final _breed = TextEditingController();
   final _color = TextEditingController();
   final _dob = TextEditingController();
+  final _vet = TextEditingController();
   final List<String> _dropdownlistValueSex = ['F', 'M'];
   String _showvalue = 'F';
 
@@ -211,6 +212,20 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
                 return null;
               },
             ),
+            TextFormField(
+              controller: _vet,
+              decoration: const InputDecoration(
+                hintText: 'Enter the Veterinarian',
+                labelText: 'Veterinarian',
+                labelStyle: TextStyle(fontSize: 18),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter the Veterinarian';
+                }
+                return null;
+              },
+            ),
             // const Padding(
             //   padding: EdgeInsets.fromLTRB(0,10,0,5),
             //   child: Text('Date of Birth', style: TextStyle(fontSize:18, color: Colors.black54)),
@@ -286,6 +301,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
     String breed = _breed.text;
     String color = _color.text;
     String dob = _dob.text;
+    String vet = _vet.text;
 
     Map<String, String> _petprofile = {
       'name': name,
@@ -294,6 +310,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
       'breed': breed,
       'color': color,
       'dob': dob,
+      'vet': vet,
       'img': returnURL
     };
 
