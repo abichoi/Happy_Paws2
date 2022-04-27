@@ -11,15 +11,15 @@ import 'package:path/path.dart' as path;
 // import 'dropdownsex.dart';
 // import 'datepicker.dart';
 
-class AddProfileFormWidget extends StatefulWidget {
-  const AddProfileFormWidget({Key? key}) : super(key: key);
+class AddProfilePage extends StatefulWidget {
+  const AddProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<AddProfileFormWidget> createState() => AddProfileFormWidgetState();
+  State<AddProfilePage> createState() => _AddProfilePageState();
 }
 
 
-class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
+class _AddProfilePageState extends State<AddProfilePage> {
   // late DatabaseReference _ref;
   // late String _uploadedFileURL;
   late String returnURL;
@@ -40,14 +40,24 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
   String _showvalue = 'F';
 
   @override
-  // void initState() {
-  //   super.initState();
-  //   // _ref = FirebaseDatabase.instance.reference().child('PetProfile');
-  // }
-
   Widget build(BuildContext context) {
-    //form widget
-    return Form(
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Add Pet Profile"),
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration:  const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
+                ),
+              ),
+            )
+        ),
+        body: Padding(
+        padding: EdgeInsets.all(20.0),
+    child: Form(
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(
@@ -56,24 +66,6 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
             Container(
                 child: _photo == null ? const Text('No Image Showing') : Image.file(_photo!)
             ),
-            // FutureBuilder<_photo?>(
-            //   future: _photo,
-            //   builder: (context, snap) {
-            //     if (snap.hasData) {
-            //       return Container(
-            //         child: Image.file(
-            //           File(snap.data!.path),
-            //           fit: BoxFit.contain,
-            //         ),
-            //         color: Colors.blue,
-            //       );
-            //     }
-            //     return Container(
-            //       height: 200.0,
-            //       color: Colors.blue,
-            //     );
-            //   },
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -236,7 +228,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    savePetProfile();
+                    _savePetProfile();
                   }
                 },
                 child: const Text('Submit'),
@@ -245,6 +237,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
           ],
         ),
       ),
+    ))
     );
   }
 
@@ -294,7 +287,7 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
   }
 
 
-  void savePetProfile() {
+  void _savePetProfile() {
     String name = _name.text;
     String species = _species.text;
     String sex = _sex;
@@ -314,37 +307,8 @@ class AddProfileFormWidgetState extends State<AddProfileFormWidget> {
       'img': returnURL
     };
 
-    FirebaseFirestore.instance
-        .collection('Pet_Profile')
-        .add(_petprofile);
+    FirebaseFirestore.instance.collection('Pet_Profile').add(_petprofile);
+    Navigator.pop(context,true);
   }
 
-}
-
-
-class AddProfilePage extends StatelessWidget{
-  const AddProfilePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("Add Pet Profile"),
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
-              ),
-            ),
-          )
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: AddProfileFormWidget(),
-      ),
-    );
-  }
 }

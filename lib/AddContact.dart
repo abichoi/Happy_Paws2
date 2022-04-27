@@ -1,32 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AddContactFormWidget extends StatefulWidget {
-  const AddContactFormWidget({Key? key}) : super(key: key);
+class addcontactpage extends StatefulWidget {
+  const addcontactpage({Key? key}) : super(key: key);
 
   @override
-  State<AddContactFormWidget> createState() => _AddContactFormWidgetState();
+  State<addcontactpage> createState() => _addcontactpageState();
 }
 
 
-class _AddContactFormWidgetState extends State<AddContactFormWidget> {
+class _addcontactpageState extends State<addcontactpage> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _choosen = [];
   final List<String> _data= [];
-  bool _selected1 = false;
-  bool _selected2 = false;
-  bool _selected3 = false;
-  bool _selected4 = false;
-  bool _selected5 = false;
+  bool _selectedGroomer = false;
+  bool _selectedBoarding = false;
+  bool _selectedSitter = false;
+  bool _selectedVet = false;
+  bool _selectedOther = false;
+  final _name = TextEditingController();
+  final _phone = TextEditingController();
+  final _address = TextEditingController();
+  final _email = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Add Contact"),
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration:  const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFFBC4FFF), Color(0xFF2438EA)],
+                ),
+              ),
+            )
+        ),
+        body: Padding(
+        padding: EdgeInsets.all(20.0),
+    child: Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            controller: _name,
             decoration: const InputDecoration(
                 hintText: 'Enter the Name',
                 labelText: 'Name'
@@ -49,18 +72,18 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
               children: [
                 FilterChip(
                     label: const Text('Groomer'),
-                    selected: _selected1,
+                    selected: _selectedGroomer,
                     showCheckmark: false,
                     labelStyle: TextStyle(
-                      color: _selected1 ? Colors.white : Colors.black,
+                      color: _selectedGroomer ? Colors.white : Colors.black,
                     ),
                     selectedColor: Colors.deepPurpleAccent,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                     onSelected: (bool selected1) {
                       setState(() {
-                        _selected1 = !_selected1;
-                        if (_selected1){
+                        _selectedGroomer = !_selectedGroomer;
+                        if (_selectedGroomer){
                           _choosen.add('Groomer');
                         } else {
                           _choosen.removeWhere((item) => item == 'Groomer');
@@ -69,18 +92,18 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
                     }),
                 FilterChip(
                     label: const Text('Pet Boarding'),
-                    selected: _selected2,
+                    selected: _selectedBoarding,
                     showCheckmark: false,
                     labelStyle: TextStyle(
-                      color: _selected2 ? Colors.white : Colors.black,
+                      color: _selectedBoarding ? Colors.white : Colors.black,
                     ),
                     selectedColor: Colors.deepPurpleAccent,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                     onSelected: (bool selected2) {
                       setState(() {
-                        _selected2 = !_selected2;
-                        if (_selected2){
+    _selectedBoarding = !_selectedBoarding;
+                        if (_selectedBoarding){
                           _choosen.add('Pet Boarding');
                         } else {
                           _choosen.removeWhere((item) => item == 'Pet Boarding');
@@ -89,18 +112,18 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
                     }),
                 FilterChip(
                     label: const Text('Pet Sitter'),
-                    selected: _selected3,
+                    selected: _selectedSitter,
                     showCheckmark: false,
                     labelStyle: TextStyle(
-                      color: _selected3 ? Colors.white : Colors.black,
+                      color: _selectedSitter ? Colors.white : Colors.black,
                     ),
                     selectedColor: Colors.deepPurpleAccent,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                     onSelected: (bool selected3) {
                       setState(() {
-                        _selected3 = !_selected3;
-                        if (_selected3){
+    _selectedSitter = !_selectedSitter;
+                        if (_selectedSitter){
                           _choosen.add('Pet Sitter');
                         } else {
                           _choosen.removeWhere((item) => item == 'Pet Sitter');
@@ -109,18 +132,18 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
                     }),
                 FilterChip(
                     label: const Text('Vet'),
-                    selected: _selected4,
+                    selected: _selectedVet,
                     showCheckmark: false,
                     labelStyle: TextStyle(
-                      color: _selected4 ? Colors.white : Colors.black,
+                      color: _selectedVet ? Colors.white : Colors.black,
                     ),
                     selectedColor: Colors.deepPurpleAccent,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                     onSelected: (bool selected4) {
                       setState(() {
-                        _selected4 = !_selected4;
-                        if (_selected4){
+    _selectedVet = !_selectedVet;
+                        if (_selectedVet){
                           _choosen.add('Vet');
                         } else {
                           _choosen.removeWhere((item) => item == 'Vet');
@@ -129,18 +152,18 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
                     }),
                 FilterChip(
                     label: const Text('Others'),
-                    selected: _selected5,
+                    selected: _selectedOther,
                     showCheckmark: false,
                     labelStyle: TextStyle(
-                      color: _selected5 ? Colors.white : Colors.black,
+                      color: _selectedOther ? Colors.white : Colors.black,
                     ),
                     selectedColor: Colors.deepPurpleAccent,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                     onSelected: (bool selected5) {
                       setState(() {
-                        _selected5 = !_selected5;
-                        if (_selected5){
+    _selectedOther = !_selectedOther;
+                        if (_selectedOther){
                           _choosen.add('Others');
                         } else {
                           _choosen.removeWhere((item) => item == 'Others');
@@ -149,6 +172,7 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
                     }),
               ]),
           TextFormField(
+            controller: _phone,
             decoration: const InputDecoration(
                 hintText: 'Enter the phone number',
                 labelText: 'Phone'
@@ -161,6 +185,7 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
             },
           ),
           TextFormField(
+            controller: _address,
             decoration: const InputDecoration(
                 hintText: 'Enter the address',
                 labelText: 'Address'
@@ -173,6 +198,7 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
             },
           ),
           TextFormField(
+            controller: _email,
             decoration: const InputDecoration(
                 hintText: 'Enter the email',
                 labelText: 'Email'
@@ -188,44 +214,48 @@ class _AddContactFormWidgetState extends State<AddContactFormWidget> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                // if (_formKey.currentState!.validate()) {
-                //   _ContactName.add()
-                // }
+                if (_formKey.currentState!.validate()) {
+                  _saveContact();
+                }
               },
               child: const Text('Submit'),
             ),
           ),
         ],
       ),
-    );
+    )));
   }
-}
 
-class addcontactpage extends StatelessWidget{
-  const addcontactpage({Key? key}) : super(key: key);
+  void _saveContact() {
+    String name = _name.text;
+    String phone = _phone.text;
+    String address = _address.text;
+    String email = _email.text;
+    String selectedGroomer = _selectedGroomer ? 'true' : 'false';
+    String selectedBoarding = _selectedBoarding ? 'true' : 'false';
+    String selectedSitter = _selectedSitter ? 'true' : 'false';
+    String selectedVet = _selectedVet ? 'true' : 'false';
+    String selectedOther = _selectedOther ? 'true' : 'false';
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("Add Contact"),
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFBC4FFF), Color(0xFF2438EA)],
-              ),
-            ),
-          )
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: AddContactFormWidget(),
-      ),
-    );
+
+    Map<String, String> _contact = {
+      'name': name,
+      'phone': phone,
+      'address': address,
+      'email': email,
+      'selectedGroomer': selectedGroomer,
+      'selectedBoarding': selectedBoarding,
+      'selectedSitter': selectedSitter,
+      'selectedVet': selectedVet,
+      'selectedOther': selectedOther
+    };
+
+    FirebaseFirestore.instance
+        .collection('Contact')
+        .add(_contact);
   }
+
+
+
+
 }

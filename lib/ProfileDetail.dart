@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'EditProfile.dart';
 
 class ProfileDetailPage extends StatefulWidget {
   @override
@@ -117,7 +118,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                                           onPressed: () {
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (_) => HomePage()),
+                                              MaterialPageRoute(builder: (_) => EditProfilePage()),
                                             );
                                             },
                                         ),
