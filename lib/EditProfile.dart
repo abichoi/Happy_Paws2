@@ -1,6 +1,7 @@
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 import 'dart:developer';
 // import 'package:firebase_database/firebase_database.dart';
@@ -31,7 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   // late Future<PickedPhoto?> _photo = Future.value(null);
   final ImagePicker _picker = ImagePicker();
   final _db = FirebaseFirestore.instance;
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _species = TextEditingController();
   String _sex = 'F';
@@ -39,6 +40,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _color = TextEditingController();
   final _dob = TextEditingController();
   final _vet = TextEditingController();
+  String _formattedDate = '';
+  var _imgchanged = false;
+  var _sexchanged = false;
+  var _datechange = false;
+  String _originaldate = '';
+  String _changeddate = '';
   final List<String> _dropdownlistValueSex = ['F', 'M'];
   String _showvalue = 'F';
   String _docid = '';
@@ -73,14 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   } else {
                     DocumentSnapshot _pet = snapshot.data!.docs[petindex];
                     _docid = snapshot.data!.docs[petindex].reference.id;
-                    _name.text =_pet.get("name");
-                    _species.text = _pet.get("species");
-                    _sex = _pet.get("sex");
-                    _showvalue = _pet.get("sex");
-                    _breed.text = _pet.get("breed");
-                    _color.text = _pet.get("color");
-                    _dob.text = _pet.get("dob");
-                    _vet.text = _pet.get("vet");
+                    _originaldate = _pet.get("dob");
                     returnURL = _pet.get("img");
 
 
@@ -91,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                child: _pet.get("img") == null ? _photo == null ? const Text('No Image') : Image.file(_photo!) : Image.network(returnURL, width: 300,height: 150)
+                                child: _imgchanged == true ? _photo == null ? const Text('No Image') : Image.file(_photo!) : Image.network(_pet.get("img"), width: 300,height: 150)
                                 // _photo == null ? const Text('No Image') : Image.file(_photo!)
                             ),
                             Row(
@@ -108,7 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ],
                             ),
                             TextFormField(
-                              controller: _name,
+                              initialValue: _pet.get("species"),
                               decoration: const InputDecoration(
                                 hintText: 'Enter the Name',
                                 labelText: 'Name',
@@ -117,14 +117,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the name';
-                                }
+                                } else {_name.text = value;}
                                 return null;
                               },
                             ),
 
 
                             TextFormField(
-                              controller: _species,
+                              initialValue: _pet.get("species"),
+                              // controller: _species,
                               decoration: const InputDecoration(
                                 hintText: 'Enter the species',
                                 labelText: 'Species',
@@ -133,7 +134,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the species';
-                                }
+                                } else {_species.text = value;}
                                 return null;
                               },
                             ),
@@ -152,7 +153,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ),
                               // child: const SexDropDownWidget(),
                               child: DropdownButton<String>(
-                                value: _showvalue,
+                                value: _sexchanged == true ? _showvalue : _pet.get("sex"),
                                 icon: const Icon(Icons.arrow_drop_down_outlined),
                                 elevation: 16,
                                 style: const TextStyle(color: Colors.black),
@@ -161,6 +162,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 iconEnabledColor: const Color(0xFFB8C1CC),
                                 onChanged: (String? newValue) {
                                   setState(() {
+                                    _sexchanged = true;
                                     _showvalue = newValue!;
                                     _sex = _showvalue;
                                   });
@@ -177,7 +179,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
                             TextFormField(
-                              controller: _breed,
+                              initialValue: _pet.get("breed"),
                               decoration: const InputDecoration(
                                 hintText: 'Enter the breed',
                                 labelText: 'Breed',
@@ -186,12 +188,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the address';
-                                }
+                                } else {_breed.text = value;}
                                 return null;
                               },
                             ),
                             TextFormField(
-                              controller: _color,
+                              initialValue: _pet.get("color"),
                               decoration: const InputDecoration(
                                 hintText: 'Enter the color',
                                 labelText: 'Color',
@@ -200,26 +202,65 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the email';
-                                }
+                                } {_color.text = value;}
                                 return null;
                               },
                             ),
                             TextFormField(
-                              controller: _dob,
+                              initialValue: _pet.get("dob"),
                               decoration: const InputDecoration(
-                                hintText: 'Enter the date of birth (dd/mm/yyyy)',
+                                hintText: 'Enter the date of birth (yyyy-mm-dd)',
                                 labelText: 'Date of Birth',
                                 labelStyle: TextStyle(fontSize: 18),
                               ),
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the date of birth (dd/mm/yyyy)';
-                                }
+                                  return 'Please enter the email';
+                                } {_dob.text = value;}
                                 return null;
                               },
                             ),
+                            // TextFormField(
+                            //   initialValue: _pet.get("dob"),
+                            //   decoration: const InputDecoration(
+                            //     hintText: 'Enter the date of birth (dd/mm/yyyy)',
+                            //     labelText: 'Date of Birth',
+                            //     labelStyle: TextStyle(fontSize: 18),
+                            //   ),
+                            //   onTap: () async {
+                            //     DateTime? pickedDate = await showDatePicker(
+                            //         context: context,
+                            //         initialDate: DateTime.now(),
+                            //         firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                            //         lastDate: DateTime(2101)
+                            //     );
+                            //
+                            //     if(pickedDate != null ){
+                            //       print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                            //       _formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            //       print(_formattedDate); //formatted date output using intl package =>  2021-03-16
+                            //       //you can implement different kind of Date Format here according to your requirement
+                            //
+                            //       setState(() {
+                            //         _datechange = true;
+                            //         _dob.text = _formattedDate; //set output date to TextField value.
+                            //       });
+                            //     }else{
+                            //       print("Date is not selected");
+                            //     }
+                            //   },
+                            //   validator: (String? value) {
+                            //     if (value == null || value.isEmpty) {
+                            //       return 'Please enter the date of birth (dd/mm/yyyy)';
+                            //     } else {
+                            //       _dob.text = _formattedDate;
+                            //
+                            //     }
+                            //     return null;
+                            //   },
+                            // ),
                             TextFormField(
-                              controller: _vet,
+                              initialValue: _pet.get("vet"),
                               decoration: const InputDecoration(
                                 hintText: 'Enter the Veterinarian',
                                 labelText: 'Veterinarian',
@@ -228,7 +269,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the Veterinarian';
-                                }
+                                } else {_vet.text = value;}
                                 return null;
                               },
                             ),
@@ -261,6 +302,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
+        _imgchanged = true;
         uploadFile();
       } else {
         print('No image selected.');
@@ -274,6 +316,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
+        _imgchanged = true;
         uploadFile();
       } else {
         print('No image selected.');
@@ -309,6 +352,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     String color = _color.text;
     String dob = _dob.text;
     String vet = _vet.text;
+
 
     Map<String, String> _petprofile = {
       'name': name,

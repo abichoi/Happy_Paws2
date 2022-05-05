@@ -1,6 +1,7 @@
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 // import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
@@ -27,7 +28,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
   File? _photo;
   // late Future<PickedPhoto?> _photo = Future.value(null);
   final ImagePicker _picker = ImagePicker();
-
+  String _formattedDate = '';
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _species = TextEditingController();
@@ -197,6 +198,27 @@ class _AddProfilePageState extends State<AddProfilePage> {
                 labelText: 'Date of Birth',
                 labelStyle: TextStyle(fontSize: 18),
               ),
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                    lastDate: DateTime(2101)
+                );
+
+                if(pickedDate != null ){
+                  print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                  _formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                  print(_formattedDate); //formatted date output using intl package =>  2021-03-16
+                  //you can implement different kind of Date Format here according to your requirement
+
+                  setState(() {
+                    _dob.text = _formattedDate; //set output date to TextField value.
+                  });
+                }else{
+                  print("Date is not selected");
+                }
+              },
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter the date of birth (dd/mm/yyyy)';
