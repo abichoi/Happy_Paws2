@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'AddAppointment.dart';
 
 class AddAppointmentPage extends StatefulWidget {
   @override
@@ -25,6 +24,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   String _formattedEndDate = '';
   String _formattedStartDate = '';
   String _formattedStartTime = '';
+  late DateTime pickedstartDate;
+  late DateTime pickedendDate;
+  late DateTime pickedstartTime;
+  late DateTime pickedendTime;
 
 
 
@@ -83,6 +86,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                       );
 
                       if(pickedDate != null ){
+                        pickedstartDate = pickedDate;
                         print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
                         _formattedStartDate = DateFormat('yyyy-MM-dd').format(pickedDate);
                         print(_formattedStartDate); //formatted date output using intl package =>  2021-03-16
@@ -116,6 +120,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                           );
                       MaterialLocalizations localizations = MaterialLocalizations.of(context);
                       if (pickedTime != null) {
+                        pickedstartTime = DateTime(pickedstartDate.year, pickedstartDate.month, pickedstartDate.day, pickedTime.hour, pickedTime.minute);
                         String formattedTime = localizations.formatTimeOfDay(pickedTime,
                             alwaysUse24HourFormat: true);
                         if (formattedTime != null) {
@@ -128,7 +133,14 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                         }
                       }
 
-                    },),
+                    },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the start time';
+                    }
+                    return null;
+                  },
+                ),
 
                   TextFormField(
                     controller: _enddate,
@@ -146,6 +158,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                       );
 
                       if(pickedDate != null ){
+                        pickedendDate = pickedDate;
                         print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
                         _formattedEndDate = DateFormat('yyyy-MM-dd').format(pickedDate);
                         print(_formattedEndDate); //formatted date output using intl package =>  2021-03-16
@@ -161,6 +174,8 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter the end date (yyyy-mm-dd)';
+                      } else if (pickedstartDate.isAfter(pickedendDate)){
+                        return 'The end date has to be after the start date';
                       }
                       return null;
                     },
@@ -179,6 +194,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                       );
                       MaterialLocalizations localizations = MaterialLocalizations.of(context);
                       if (pickedTime != null) {
+                        pickedendTime = DateTime(pickedendDate.year, pickedendDate.month, pickedendDate.day, pickedTime.hour, pickedTime.minute);
                         String formattedTime = localizations.formatTimeOfDay(pickedTime,
                             alwaysUse24HourFormat: true);
                         if (formattedTime != null) {
@@ -191,7 +207,16 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                         }
                       }
 
-                    },),
+                    },
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter the end time';
+                      } else if (pickedstartTime.isAfter(pickedendTime)){
+                        return 'The end time has to be after the start time';
+                      }
+                      return null;
+                    },
+                  ),
                   TextFormField(
                     controller: _pet,
                     decoration: const InputDecoration(
