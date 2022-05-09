@@ -11,11 +11,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'EditProfile.dart';
+import 'Vaccinepage.dart';
 
 class ProfileDetailPage extends StatefulWidget {
   @override
   _ProfileDetailPageState createState() => _ProfileDetailPageState();
 }
+String petdocid = '';
+List petvaccinelist = [];
 
 class _ProfileDetailPageState extends State<ProfileDetailPage> {
   final _db = FirebaseFirestore.instance;
@@ -23,6 +26,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
   TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const TextStyle rightdetailstyle =
   TextStyle(fontSize: 20, fontWeight: FontWeight.normal);
+
 
     @override
     Widget build(BuildContext context) {
@@ -50,6 +54,18 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                         );
                       } else {
                         DocumentSnapshot _pet = snapshot.data!.docs[petindex];
+                        petdocid = snapshot.data!.docs[petindex].reference.id;
+                        petvaccinelist = _pet.get("Vaccine");
+                        print("petvaccinelist");
+                        print(petvaccinelist);
+                        print(petvaccinelist.length);
+                        print(petvaccinelist[0]);
+                        print(petvaccinelist[0]["enddate"]);
+                        // petvaccinelist.forEach((element) {
+                        //   print("printlist");
+                        //   print(element);
+                        //   print(element["enddate"]);
+                        // });
                         return ListView(
                                     children: [
                                       Align(
@@ -72,7 +88,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                                                     onPressed: () {
                                                       Navigator.push(
                                                         context,
-                                                        MaterialPageRoute(builder: (_) => HomePage()),
+                                                        MaterialPageRoute(builder: (_) => VaccinePage()),
                                                       );
                                                     },
                                                   ),

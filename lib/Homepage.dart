@@ -134,7 +134,7 @@ var petindex = 0;
                     width: 150,
                     child: Column(
                       children:<Widget>[
-                        Image.network(_pet.get("img")),
+                        Image.network(_pet.get("img"), height: 200),
                         Text(_pet.get("name")),
                       ]
                     ),

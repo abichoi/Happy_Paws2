@@ -38,12 +38,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _color = TextEditingController();
   final _dob = TextEditingController();
   final _vet = TextEditingController();
-  String _formattedDate = '';
   var _imgchanged = false;
   var _sexchanged = false;
-  var _datechange = false;
-  String _originaldate = '';
-  String _changeddate = '';
+  String _initialdob = 'empty';
+  String _formatteddob = '';
   final List<String> _dropdownlistValueSex = ['F', 'M'];
   String _showvalue = 'F';
   String _docid = '';
@@ -68,9 +66,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
         body: Padding(
             padding: EdgeInsets.all(20.0),
-            child: StreamBuilder<QuerySnapshot>(
-                stream: _db.collection('Pet_Profile').snapshots(),
-                builder: (context, snapshot) {
+            child: FutureBuilder<QuerySnapshot>(
+                future: _db.collection('Pet_Profile').get(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -78,7 +76,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   } else {
                     DocumentSnapshot _pet = snapshot.data!.docs[petindex];
                     _docid = snapshot.data!.docs[petindex].reference.id;
-                    _originaldate = _pet.get("dob");
+                    if (_initialdob == 'empty') {
+                      print("it is empty");
+                      _initialdob = _pet.get("dob");
+                      _dob.text = _pet.get("dob");
+                    }
                     returnURL = _pet.get("img");
 
 
@@ -106,7 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ],
                             ),
                             TextFormField(
-                              initialValue: _pet.get("species"),
+                              initialValue: _pet.get("name"),
                               decoration: const InputDecoration(
                                 hintText: 'Enter the Name',
                                 labelText: 'Name',
@@ -205,58 +207,41 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               },
                             ),
                             TextFormField(
-                              initialValue: _pet.get("dob"),
+                              key: Key(_initialdob),
+                              initialValue: _initialdob,
                               decoration: const InputDecoration(
-                                hintText: 'Enter the date of birth (yyyy-mm-dd)',
+                                hintText: 'Please enter the Date of Birth (yyyy-mm-dd)',
                                 labelText: 'Date of Birth',
                                 labelStyle: TextStyle(fontSize: 18),
                               ),
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101)
+                                );
+
+                                if(pickedDate != null ){
+                                  _formatteddob = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                  print(_formatteddob);
+                                  setState(() {
+                                    _dob.text = _formatteddob;
+                                    print(_dob.text);
+                                    _initialdob = _formatteddob;
+                                    print(_initialdob);//set output date to TextField value.
+                                  });
+                                }else{
+                                  print("Date of Birth is not selected");
+                                }
+                              },
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the email';
-                                } {_dob.text = value;}
+                                  return 'Please enter the Date of Birth (yyyy-mm-dd)';
+                                }
                                 return null;
                               },
                             ),
-                            // TextFormField(
-                            //   initialValue: _pet.get("dob"),
-                            //   decoration: const InputDecoration(
-                            //     hintText: 'Enter the date of birth (dd/mm/yyyy)',
-                            //     labelText: 'Date of Birth',
-                            //     labelStyle: TextStyle(fontSize: 18),
-                            //   ),
-                            //   onTap: () async {
-                            //     DateTime? pickedDate = await showDatePicker(
-                            //         context: context,
-                            //         initialDate: DateTime.now(),
-                            //         firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                            //         lastDate: DateTime(2101)
-                            //     );
-                            //
-                            //     if(pickedDate != null ){
-                            //       print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                            //       _formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                            //       print(_formattedDate); //formatted date output using intl package =>  2021-03-16
-                            //       //you can implement different kind of Date Format here according to your requirement
-                            //
-                            //       setState(() {
-                            //         _datechange = true;
-                            //         _dob.text = _formattedDate; //set output date to TextField value.
-                            //       });
-                            //     }else{
-                            //       print("Date is not selected");
-                            //     }
-                            //   },
-                            //   validator: (String? value) {
-                            //     if (value == null || value.isEmpty) {
-                            //       return 'Please enter the date of birth (dd/mm/yyyy)';
-                            //     } else {
-                            //       _dob.text = _formattedDate;
-                            //
-                            //     }
-                            //     return null;
-                            //   },
-                            // ),
                             TextFormField(
                               initialValue: _pet.get("vet"),
                               decoration: const InputDecoration(
@@ -271,12 +256,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 return null;
                               },
                             ),
-                            // const Padding(
-                            //   padding: EdgeInsets.fromLTRB(0,10,0,5),
-                            //   child: Text('Date of Birth', style: TextStyle(fontSize:18, color: Colors.black54)),
-                            // ),
-                            // Container(height: 50, child: DatePicker(),),
-                            Padding(
+
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      child: ElevatedButton.icon(
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection('Pet_Profile').doc(_docid).delete();
+                                          Navigator.pop(context,true);
+                                        },
+                                        icon: const Icon(Icons.delete_outline),
+                                        label: const Text('Delete'),
+                                      )),
+                                  Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: ElevatedButton(
                                 onPressed: () {
@@ -286,7 +281,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 },
                                 child: const Text('Submit'),
                               ),
-                            ),
+                            ),])
                   ],
                 ),
               ),
@@ -365,6 +360,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     FirebaseFirestore.instance
         .collection('Pet_Profile').doc(_docid).set(_petprofile);
+    Navigator.pop(context,true);
   }
 
 }

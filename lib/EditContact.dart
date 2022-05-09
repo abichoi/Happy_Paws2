@@ -203,10 +203,24 @@ class _EditContactPageState extends State<EditContactPage> {
                       return null;
                     },
                   ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child:
-                      Padding(
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurpleAccent,
+                              ),
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('Contact').doc(_docid).delete();
+                                Navigator.pop(context,true);
+                              },
+                              icon: const Icon(Icons.delete_outline),
+                              label: const Text('Delete'),
+                            )),
+                        Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -219,10 +233,12 @@ class _EditContactPageState extends State<EditContactPage> {
                           },
                           child: const Text('Submit'),
                         ),
-                      )),
-                ],
-              ),
-            );}})));
+                      ),
+                      ]
+                      )
+                  ]),
+                    );
+            }})));
   }
 
   void _saveContact() {
@@ -251,6 +267,7 @@ class _EditContactPageState extends State<EditContactPage> {
 
     FirebaseFirestore.instance
         .collection('Contact').doc(_docid).set(_contact);
+    Navigator.pop(context,true);
   }
 
 
