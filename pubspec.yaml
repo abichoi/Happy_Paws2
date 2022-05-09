@@ -79,10 +79,6 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/DogFoodJamesWellbeloved.jpg
-    - assets/DogFoodArdenGrange.jpg
-    - assets/DogFoodLifelong.jpg
-    - assets/DogFoodHarringtons.jpg
     - assets/Petshopco.jpg
     - assets/petplanet.jpg
     - assets/Pets_at_Home.jpg
