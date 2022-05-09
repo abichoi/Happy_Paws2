@@ -53,7 +53,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   TextFormField(
                     controller: _title,
@@ -247,7 +247,11 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
+                    child:
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                      ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _saveAppointment();
@@ -260,7 +264,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               )
             )
           )
-        )
+        ),
     );
   }
   void _saveAppointment() {

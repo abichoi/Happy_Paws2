@@ -98,6 +98,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                                 Text(_appointment.get('title'), style: TextStyle(color: (_appointment.get('startdate') == _formattedselectedDay || _appointment.get('enddate') == _formattedselectedDay) ? Colors.white : Colors.black)),
                                                 IconButton(
                                                   icon: const Icon(Icons.mode_edit_outline_outlined ),
+                                                  color: (_appointment.get('startdate') == _formattedselectedDay || _appointment.get('enddate') == _formattedselectedDay) ? Colors.white : Colors.black,
                                                   iconSize: 30,
                                                   tooltip: 'Edit Appointment',
                                                   onPressed: () {
@@ -142,7 +143,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
         },
         child: const Icon(Icons.add),
         // color: Colors.white,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.orange,
         tooltip: 'Add Appointment',
       ),
 

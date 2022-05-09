@@ -113,7 +113,7 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
                         key: _formKey,
                         child: SingleChildScrollView(
                             child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   TextFormField(
                                     initialValue: _appointment.get("title"),
@@ -315,6 +315,9 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                                   child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.orange,
+                                    ),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         _saveAppointment();

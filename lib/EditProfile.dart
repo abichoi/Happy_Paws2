@@ -12,8 +12,6 @@ import 'package:path/path.dart' as path;
 import 'Homepage.dart';
 import 'ProfileDetail.dart';
 // import 'package:firebase_core/firebase_core.dart';
-// import 'dropdownsex.dart';
-// import 'datepicker.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
