@@ -38,7 +38,7 @@ class _AddMedRecPageState extends State<AddMedRecPage> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFFBC4FFF),Color(0xFF24DEEA)],
+                colors: [Color(0xFFFFA34F), Color(0xFF24EA73)],
               ),
             ),
           )

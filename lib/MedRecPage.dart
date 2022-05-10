@@ -13,6 +13,7 @@ import 'package:path/path.dart' as path;
 import 'ProfileDetail.dart';
 import 'AddMecRec.dart';
 import 'Vaccinepage.dart';
+import 'NotePage.dart';
 
 class MedRecPage extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _MedRecPageState extends State<MedRecPage> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
+                  colors: [Color(0xFFFFA34F), Color(0xFF24EA73)],
                 ),
               ),
             )
@@ -104,7 +105,7 @@ class _MedRecPageState extends State<MedRecPage> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (_) => HomePage()),
+                                      MaterialPageRoute(builder: (_) => NotePage()),
                                     );
                                   },
                                 ),

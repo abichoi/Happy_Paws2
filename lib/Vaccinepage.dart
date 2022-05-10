@@ -13,6 +13,8 @@ import 'package:path/path.dart' as path;
 import 'ProfileDetail.dart';
 import 'AddVaccine.dart';
 import 'MedRecPage.dart';
+import 'NotePage.dart';
+
 
 class VaccinePage extends StatefulWidget {
   @override
@@ -104,7 +106,7 @@ class _VaccinePageState extends State<VaccinePage> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (_) => HomePage()),
+                                      MaterialPageRoute(builder: (_) => NotePage()),
                                     );
                                   },
                                 ),
