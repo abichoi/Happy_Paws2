@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'ProfileDetail.dart';
 import 'AddVaccine.dart';
+import 'MedRecPage.dart';
 
 class VaccinePage extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ class _VaccinePageState extends State<VaccinePage> {
                                     );
                                   },
                                 ),
-                                const Text('Vaccine Record')
+                                const Text('Add Vaccine Record')
                               ]),
                           Column(
                               children: <Widget>[
@@ -88,7 +89,7 @@ class _VaccinePageState extends State<VaccinePage> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (_) => HomePage()),
+                                      MaterialPageRoute(builder: (_) => MedRecPage()),
                                     );
                                   },
                                 ),
@@ -150,9 +151,9 @@ class _VaccinePageState extends State<VaccinePage> {
                                   Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(_vaccineitem["startdate"],style: rightdetailstyle,),
-                                        Text(_vaccineitem["starttime"],style: rightdetailstyle,),
-                                        Text(_vaccineitem["enddate"],style: rightdetailstyle,)
+                                        Text(_vaccineitem["date"],style: rightdetailstyle,),
+                                        Text(_vaccineitem["expire"],style: rightdetailstyle,),
+                                        Text(_vaccineitem["vet"],style: rightdetailstyle,)
                                       ]
                                   )
                                 ]

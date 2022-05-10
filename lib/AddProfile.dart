@@ -317,7 +317,9 @@ class _AddProfilePageState extends State<AddProfilePage> {
     String color = _color.text;
     String dob = _dob.text;
     String vet = _vet.text;
-    List vaccinelist = [ ];
+    List vaccinelist = [];
+    List medreclist = [];
+    List notelist = [];
 
     Map<String, dynamic> _petprofile = {
       'name': name,
@@ -328,7 +330,9 @@ class _AddProfilePageState extends State<AddProfilePage> {
       'dob': dob,
       'vet': vet,
       'img': returnURL,
-      "vaccine": FieldValue.arrayUnion(vaccinelist),
+      "Vaccine": FieldValue.arrayUnion(vaccinelist),
+      "MedRec": FieldValue.arrayUnion(medreclist),
+      "Note": FieldValue.arrayUnion(notelist),
     };
 
     FirebaseFirestore.instance.collection('Pet_Profile').add(_petprofile);

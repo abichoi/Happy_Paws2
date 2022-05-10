@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'EditProfile.dart';
 import 'Vaccinepage.dart';
+import 'MedRecPage.dart';
 
 class ProfileDetailPage extends StatefulWidget {
   @override
@@ -19,6 +20,8 @@ class ProfileDetailPage extends StatefulWidget {
 }
 String petdocid = '';
 List petvaccinelist = [];
+List petmedreclist = [];
+List petnotelist = [];
 
 class _ProfileDetailPageState extends State<ProfileDetailPage> {
   final _db = FirebaseFirestore.instance;
@@ -56,11 +59,13 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                         DocumentSnapshot _pet = snapshot.data!.docs[petindex];
                         petdocid = snapshot.data!.docs[petindex].reference.id;
                         petvaccinelist = _pet.get("Vaccine");
-                        print("petvaccinelist");
-                        print(petvaccinelist);
-                        print(petvaccinelist.length);
-                        print(petvaccinelist[0]);
-                        print(petvaccinelist[0]["enddate"]);
+                        petmedreclist = _pet.get("MedRec");
+                        petnotelist = _pet.get("Note");
+                        // print("petvaccinelist");
+                        // print(petvaccinelist);
+                        // print(petvaccinelist.length);
+                        // print(petvaccinelist[0]);
+                        // print(petvaccinelist[0]["enddate"]);
                         // petvaccinelist.forEach((element) {
                         //   print("printlist");
                         //   print(element);
@@ -103,7 +108,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                                                     onPressed: () {
                                                       Navigator.push(
                                                         context,
-                                                        MaterialPageRoute(builder: (_) => HomePage()),
+                                                        MaterialPageRoute(builder: (_) => MedRecPage()),
                                                       );
                                                       },
                                                   ),

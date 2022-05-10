@@ -7,17 +7,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ProfileDetail.dart';
 
-class AddVaccinePage extends StatefulWidget {
+class AddMedRecPage extends StatefulWidget {
   @override
-  State<AddVaccinePage> createState() => _AddVaccinePageState();
+  State<AddMedRecPage> createState() => _AddMedRecPageState();
 }
 
 
-class _AddVaccinePageState extends State<AddVaccinePage> {
-  final _vaccine = TextEditingController();
+class _AddMedRecPageState extends State<AddMedRecPage> {
   final _date = TextEditingController();
-  final _expire = TextEditingController();
-  final _vet = TextEditingController();
+  final _problem = TextEditingController();
+  final _diagnosis = TextEditingController();
+  final _action = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _formatteddate = '';
   String _formattedexpire = '';
@@ -31,7 +31,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Add Vaccine"),
+          title: const Text("Add Medical Record"),
           elevation: 0,
           flexibleSpace: Container(
             decoration:  const BoxDecoration(
@@ -51,20 +51,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        TextFormField(
-                          controller: _vaccine,
-                          style: const TextStyle(fontSize: 30),
-                          decoration: const InputDecoration(
-                            hintText: 'Vaccine',
-                            labelStyle: TextStyle(fontSize: 18),
-                          ),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter the vaccine';
-                            }
-                            return null;
-                          },
-                        ),
+
                         TextFormField(
                           controller: _date,
                           decoration: const InputDecoration(
@@ -91,64 +78,69 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                                 _date.text = _formatteddate; //set output date to TextField value.
                               });
                             }else{
-                              print("Start date is not selected");
+                              print("Date is not selected");
                             }
                           },
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter the start date (yyyy-mm-dd)';
+                              return 'Please enter the date (yyyy-mm-dd)';
                             }
                             return null;
                           },
                         ),
+                        const Text("  "),
                         TextFormField(
-                          controller: _expire,
+                          minLines: 6,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: _problem,
                           decoration: const InputDecoration(
-                            hintText: 'Please enter the expire date (yyyy-mm-dd)',
-                            labelText: 'Expire Date',
+                            border: OutlineInputBorder(),
+                            hintText: 'Please enter the problem',
+                            labelText: 'Problem',
                             labelStyle: TextStyle(fontSize: 18),
                           ),
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101)
-                            );
-
-                            if(pickedDate != null ){
-                              pickedexpire = pickedDate;
-                              print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                              _formattedexpire = DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(_formattedexpire); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
-                              setState(() {
-                                _expire.text = _formattedexpire; //set output date to TextField value.
-                              });
-                            }else{
-                              print("End date is not selected");
-                            }
-                          },
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter the end date (yyyy-mm-dd)';
-                            } else if (pickedstartDate.isAfter(pickedexpire)){
-                              return 'The end date has to be after the start date';
+                              return "Please enter the problem";
                             }
                             return null;
                           },
                         ),
+                        const Text("  "),
                         TextFormField(
-                          controller: _vet,
+                          minLines: 6,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: _diagnosis,
                           decoration: const InputDecoration(
-                            hintText: "Enter the vet",
-                            labelText: 'Vet',
+                            border: OutlineInputBorder(),
+                            hintText: 'Please enter the diagnosis',
+                            labelText: 'Diagnosis',
                             labelStyle: TextStyle(fontSize: 18),
                           ),
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter the pet's name";
+                              return "Please enter the diagnosis";
+                            }
+                            return null;
+                          },
+                        ),
+                        const Text("  "),
+                        TextFormField(
+                          minLines: 6,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: _action,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Please enter the action',
+                            labelText: 'Action',
+                            labelStyle: TextStyle(fontSize: 18),
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter the action";
                             }
                             return null;
                           },
@@ -177,22 +169,22 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
     );
   }
   void _saveAppointment() {
-    String vaccine = _vaccine.text;
     String date = _date.text;
-    String expire = _expire.text;
-    String vet = _vet.text;
+    String problem = _problem.text;
+    String diagnosis = _diagnosis.text;
+    String action = _action.text;
 
-    petvaccinelist.add({
-      'title': vaccine,
+    petmedreclist.add({
       'date': date,
-      'expire': expire,
-      'vet': vet,
+      'problem': problem,
+      'diagnosis': diagnosis,
+      'action': action,
     });
 
 
 
     FirebaseFirestore.instance
-        .collection('Pet_Profile').doc(petdocid).update({'Vaccine':FieldValue.arrayUnion(petvaccinelist)});
+        .collection('Pet_Profile').doc(petdocid).update({'MedRec':FieldValue.arrayUnion(petmedreclist)});
     Navigator.pop(context,true);
   }
 
