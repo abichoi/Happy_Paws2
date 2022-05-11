@@ -1,16 +1,13 @@
-// import 'dart:js';
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'AddContact.dart';
 import 'AddProfile.dart';
 import 'ProfileDetail.dart';
 import 'EditContact.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'authentication.dart';
+import 'UserPage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,6 +26,18 @@ class _HomePageState extends State<HomePage>{
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                FontAwesomeIcons.solidCircleUser,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserPage()));
+              },
+            )
+          ],
                 ),
         body:  Column(
           children: <Widget>[
@@ -106,7 +115,7 @@ var petindex = 0;
   Widget build(BuildContext context) {
   return Scaffold(
     body: StreamBuilder<QuerySnapshot>(
-      stream: _db.collection('Pet_Profile').snapshots(),
+      stream: _db.collection("user").doc(userId).collection('Pet_Profile').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -157,7 +166,7 @@ class _ContactList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
-            stream: _db.collection('Contact').snapshots(),
+            stream: _db.collection("user").doc(userId).collection('Contact').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
@@ -175,18 +184,28 @@ class _ContactList extends StatelessWidget {
                     DocumentSnapshot _contact = snapshot.data!.docs[_index];
                     if (_contact.get('selectedGroomer') == 'true') {
                       catagorylist.add('Groomer');
+                    } else{
+                      catagorylist.remove('Groomer');
                     }
                     if (_contact.get('selectedBoarding') == 'true') {
                       catagorylist.add('Pet Boarding');
+                    } else{
+                      catagorylist.remove('Pet Boarding');
                     }
                     if (_contact.get('selectedSitter') == 'true') {
-                      catagorylist.add('Pet');
+                      catagorylist.add('Pet-Sitter');
+                    } else{
+                      catagorylist.remove('Pet-Sitter');
                     }
                     if (_contact.get('selectedVet') == 'true') {
                       catagorylist.add('Vet');
+                    }else{
+                      catagorylist.remove('Vet');
                     }
                     if (_contact.get('selectedOther') == 'true') {
                       catagorylist.add('Others');
+                    }else{
+                      catagorylist.remove('Others');
                     }
                     catagorylist = catagorylist.toSet().toList();
                     String stringList = catagorylist.join(", ");

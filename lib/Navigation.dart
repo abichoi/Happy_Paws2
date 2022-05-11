@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'AddContact.dart';
 import 'Appointmentpage.dart';
 import 'Homepage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
 import 'Shoppage.dart';
 import 'Storagepage.dart';
 

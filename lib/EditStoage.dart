@@ -1,15 +1,12 @@
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'dart:io';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:path/path.dart' as path;
 import 'Storagepage.dart';
+import 'authentication.dart';
 
 class EditStoragePage extends StatefulWidget {
   const EditStoragePage({Key? key}) : super(key: key);
@@ -20,14 +17,10 @@ class EditStoragePage extends StatefulWidget {
 
 
 class _EditStoragePageState extends State<EditStoragePage> {
-  // late DatabaseReference _ref;
-  // late String _uploadedFileURL;
   late String returnURL;
   firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   File? _photo;
-  // late Future<PickedPhoto?> _photo = Future.value(null);
   final ImagePicker _picker = ImagePicker();
-  String _formattedDate = '';
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   int _quantity = -1;
@@ -59,7 +52,7 @@ class _EditStoragePageState extends State<EditStoragePage> {
             child: Padding(
             padding: EdgeInsets.all(20.0),
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: _db.collection('Storage').snapshots(),
+                    stream: _db.collection("user").doc(userId).collection('Storage').snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const Center(
@@ -315,7 +308,7 @@ class _EditStoragePageState extends State<EditStoragePage> {
       'img': returnURL
     };
 
-    FirebaseFirestore.instance.collection('Storage').doc(_docid).set(_storage);
+    FirebaseFirestore.instance.collection("user").doc(userId).collection('Storage').doc(_docid).set(_storage);
     Navigator.pop(context,true);
   }
 

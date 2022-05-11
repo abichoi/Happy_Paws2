@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'Homepage.dart';
+import 'authentication.dart';
 
 class EditContactPage extends StatefulWidget {
   const EditContactPage({Key? key}) : super(key: key);
@@ -16,8 +13,6 @@ class EditContactPage extends StatefulWidget {
 
 class _EditContactPageState extends State<EditContactPage> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _choosen = [];
-  final List<String> _data= [];
   final _db = FirebaseFirestore.instance;
   bool _selectedGroomer = false;
   bool _selectedBoarding = false;
@@ -48,9 +43,9 @@ class _EditContactPageState extends State<EditContactPage> {
             )
         ),
         body: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: StreamBuilder<QuerySnapshot>(
-                stream: _db.collection('Contact').snapshots(),
+                stream: _db.collection("user").doc(userId).collection('Contact').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
@@ -59,15 +54,24 @@ class _EditContactPageState extends State<EditContactPage> {
                   } else {
                     DocumentSnapshot _contact = snapshot.data!.docs[contactindex];
                     _docid = snapshot.data!.docs[contactindex].reference.id;
-                    _name.text =_contact.get("name");
-                    _phone.text = _contact.get("phone");
-                    _address.text = _contact.get("address");
-                    _email.text = _contact.get("email");
-                    _selectedGroomer = _contact.get("selectedGroomer") == 'true' ? true : false;
-                    _selectedBoarding = _contact.get("selectedBoarding") == 'true' ? true : false;
-                    _selectedSitter = _contact.get("selectedSitter") == 'true' ? true : false;
-                    _selectedVet = _contact.get("selectedVet") == 'true' ? true : false;
-                    _selectedOther = _contact.get("selectedOther") == 'true' ? true : false;
+                    print("_name.text");
+                    print(_name.text);
+                    if (_name.text == '') {
+                      _name.text = _contact.get("name");
+                      _phone.text = _contact.get("phone");
+                      _address.text = _contact.get("address");
+                      _email.text = _contact.get("email");
+                      _selectedGroomer =
+                      _contact.get("selectedGroomer") == 'true' ? true : false;
+                      _selectedBoarding =
+                      _contact.get("selectedBoarding") == 'true' ? true : false;
+                      _selectedSitter =
+                      _contact.get("selectedSitter") == 'true' ? true : false;
+                      _selectedVet =
+                      _contact.get("selectedVet") == 'true' ? true : false;
+                      _selectedOther =
+                      _contact.get("selectedOther") == 'true' ? true : false;
+                    }
 
 
                     return Form(
@@ -94,9 +98,9 @@ class _EditContactPageState extends State<EditContactPage> {
                       child: Text('Category', style: TextStyle(fontSize:15, color: Colors.black54)),
                     ),
                   ),
-                  Wrap(
-                      spacing: 20,
-                      children: [
+                  // Row(
+                  //     spacing: 20,
+                  //     children: [
                         FilterChip(
                             label: const Text('Groomer'),
                             selected: _selectedGroomer,
@@ -105,11 +109,13 @@ class _EditContactPageState extends State<EditContactPage> {
                               color: _selectedGroomer ? Colors.white : Colors.black,
                             ),
                             selectedColor: Colors.deepPurpleAccent,
+                            disabledColor: Colors.white,
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                             onSelected: (bool selected1) {
+                              setState(() {
                                 _selectedGroomer = !_selectedGroomer;
-                                log(_selectedGroomer.toString());
+                              });
                             }),
                         FilterChip(
                             label: const Text('Pet Boarding'),
@@ -122,7 +128,9 @@ class _EditContactPageState extends State<EditContactPage> {
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                             onSelected: (bool selected2) {
+                              setState(() {
                                 _selectedBoarding = !_selectedBoarding;
+                              });
                             }),
                         FilterChip(
                             label: const Text('Pet Sitter'),
@@ -135,7 +143,9 @@ class _EditContactPageState extends State<EditContactPage> {
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                             onSelected: (bool selected3) {
-                                _selectedSitter = !_selectedSitter;
+                                setState(() {
+                                  _selectedSitter = !_selectedSitter;
+                                });
                             }),
                         FilterChip(
                             label: const Text('Vet'),
@@ -148,7 +158,9 @@ class _EditContactPageState extends State<EditContactPage> {
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                             onSelected: (bool selected4) {
+                              setState(() {
                                 _selectedVet = !_selectedVet;
+                              });
                             }),
                         FilterChip(
                             label: const Text('Others'),
@@ -161,9 +173,11 @@ class _EditContactPageState extends State<EditContactPage> {
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.black26, width: 1),borderRadius: BorderRadius.circular(20),),
                             onSelected: (bool selected5) {
+                              setState(() {
                                 _selectedOther = !_selectedOther;
+                              });
                             }),
-                      ]),
+                      // ]),
                   TextFormField(
                     controller: _phone,
                     decoration: const InputDecoration(
@@ -214,7 +228,7 @@ class _EditContactPageState extends State<EditContactPage> {
                               ),
                               onPressed: () {
                                 FirebaseFirestore.instance
-                                    .collection('Contact').doc(_docid).delete();
+                                    .collection("user").doc(userId).collection('Contact').doc(_docid).delete();
                                 Navigator.pop(context,true);
                               },
                               icon: const Icon(Icons.delete_outline),
@@ -266,7 +280,7 @@ class _EditContactPageState extends State<EditContactPage> {
     };
 
     FirebaseFirestore.instance
-        .collection('Contact').doc(_docid).set(_contact);
+        .collection("user").doc(userId).collection('Contact').doc(_docid).set(_contact);
     Navigator.pop(context,true);
   }
 

@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'AddAppointment.dart';
 import 'Appointmentpage.dart';
-// import 'Homepage.dart';
+import 'authentication.dart';
 
 class EditAppointmentPage extends StatefulWidget {
   const EditAppointmentPage({Key? key}) : super(key: key);
@@ -64,7 +56,7 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
         body: Padding(
             padding: EdgeInsets.all(20.0),
             child: FutureBuilder<QuerySnapshot>(
-                future: _db.collection('Appointment').get(),
+                future: _db.collection("user").doc(userId).collection('Appointment').get(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
@@ -353,7 +345,7 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
 
     };
 
-    FirebaseFirestore.instance.collection('Appointment').doc(_docid).set(_appointment);
+    FirebaseFirestore.instance.collection("user").doc(userId).collection('Appointment').doc(_docid).set(_appointment);
     Navigator.pop(context,true);
   }
 

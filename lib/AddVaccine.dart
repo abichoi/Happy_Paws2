@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ProfileDetail.dart';
+import 'authentication.dart';
 
 class AddVaccinePage extends StatefulWidget {
   @override
@@ -192,7 +189,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
 
 
     FirebaseFirestore.instance
-        .collection('Pet_Profile').doc(petdocid).update({'Vaccine':FieldValue.arrayUnion(petvaccinelist)});
+        .collection("user").doc(userId).collection('Pet_Profile').doc(petdocid).update({'Vaccine':FieldValue.arrayUnion(petvaccinelist)});
     Navigator.pop(context,true);
   }
 

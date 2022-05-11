@@ -1,17 +1,13 @@
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-import 'dart:developer';
-// import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'Homepage.dart';
-import 'ProfileDetail.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'authentication.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -67,7 +63,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         body: Padding(
             padding: EdgeInsets.all(20.0),
             child: FutureBuilder<QuerySnapshot>(
-                future: _db.collection('Pet_Profile').get(),
+                future: _db.collection("user").doc(userId).collection('Pet_Profile').get(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
@@ -265,7 +261,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       child: ElevatedButton.icon(
                                         onPressed: () {
                                           FirebaseFirestore.instance
-                                              .collection('Pet_Profile').doc(_docid).delete();
+                                              .collection("user").doc(userId).collection('Pet_Profile').doc(_docid).delete();
                                           Navigator.pop(context,true);
                                         },
                                         icon: const Icon(Icons.delete_outline),
@@ -359,7 +355,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     };
 
     FirebaseFirestore.instance
-        .collection('Pet_Profile').doc(_docid).set(_petprofile);
+        .collection("user").doc(userId).collection('Pet_Profile').doc(_docid).set(_petprofile);
     Navigator.pop(context,true);
   }
 

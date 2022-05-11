@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'authentication.dart';
 
 class addcontactpage extends StatefulWidget {
   const addcontactpage({Key? key}) : super(key: key);
@@ -256,9 +256,7 @@ class _addcontactpageState extends State<addcontactpage> {
       'selectedOther': selectedOther
     };
 
-    FirebaseFirestore.instance
-        .collection('Contact')
-        .add(_contact);
+    FirebaseFirestore.instance.collection("user").doc(userId).collection('Contact').add(_contact);
   }
 
 

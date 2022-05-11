@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Login.dart';
-import 'Homepage.dart';
 import 'authentication.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 class RegisterPage extends StatefulWidget {

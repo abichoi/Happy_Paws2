@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'authentication.dart';
 
 class AddAppointmentPage extends StatefulWidget {
   @override
@@ -287,7 +284,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
 
     };
 
-    FirebaseFirestore.instance.collection('Appointment').add(_appointment);
+    FirebaseFirestore.instance.collection("user").doc(userId).collection('Appointment').add(_appointment);
     Navigator.pop(context,true);
   }
 

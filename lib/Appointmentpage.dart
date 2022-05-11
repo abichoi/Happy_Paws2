@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'AddAppointment.dart';
 import 'EditAppointment.dart';
+import 'authentication.dart';
 
 class AppointmentPage extends StatefulWidget {
   @override
@@ -70,7 +66,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
               },
                 ),
               StreamBuilder<QuerySnapshot>(
-                  stream: _db.collection('Appointment').snapshots(),
+                  stream: _db.collection("user").doc(userId).collection('Appointment').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(

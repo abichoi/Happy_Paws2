@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ProfileDetail.dart';
+import 'authentication.dart';
 
 class AddNotePage extends StatefulWidget {
   @override
@@ -137,7 +134,7 @@ class _AddNotePageState extends State<AddNotePage> {
 
 
     FirebaseFirestore.instance
-        .collection('Pet_Profile').doc(petdocid).update({'Note':FieldValue.arrayUnion(petnotelist)});
+        .collection("user").doc(userId).collection('Pet_Profile').doc(petdocid).update({'Note':FieldValue.arrayUnion(petnotelist)});
     Navigator.pop(context,true);
   }
 

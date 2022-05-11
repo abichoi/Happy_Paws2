@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'AddStorage.dart';
 import 'EditStoage.dart';
+import 'authentication.dart';
 
 class StoragePage extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _StoragePageState extends State<StoragePage> {
             )
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: _db.collection('Storage').snapshots(),
+            stream: _db.collection("user").doc(userId).collection('Storage').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
@@ -126,7 +126,7 @@ class _StoragePageState extends State<StoragePage> {
                                                   if(_quantity != 0) {
                                                     setState(() {
                                                       _quantity--;
-                                                      FirebaseFirestore.instance.collection('Storage').doc(_docid).update({ "quantity": _quantity.toString()});
+                                                      FirebaseFirestore.instance.collection("user").doc(userId).collection('Storage').doc(_docid).update({ "quantity": _quantity.toString()});
 
                                                     });
                                                   }
@@ -151,7 +151,7 @@ class _StoragePageState extends State<StoragePage> {
                                                 onPressed: () {
                                                   setState(() {
                                                     _quantity++;
-                                                    FirebaseFirestore.instance.collection('Storage').doc(_docid).update({ "quantity": _quantity.toString()});
+                                                    FirebaseFirestore.instance.collection("user").doc(userId).collection('Storage').doc(_docid).update({ "quantity": _quantity.toString()});
                                                   });
                                                 },
                                                 child: const Icon(Icons.add),

@@ -1,20 +1,12 @@
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'Homepage.dart';
-import 'dart:io';
-// import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 import 'ProfileDetail.dart';
-import 'AddMecRec.dart';
 import 'Vaccinepage.dart';
 import 'MedRecPage.dart';
 import 'AddNote.dart';
+import 'authentication.dart';
 
 class NotePage extends StatefulWidget {
   @override
@@ -44,7 +36,7 @@ class _NotePageState extends State<NotePage> {
         ),
         body:
         StreamBuilder<QuerySnapshot>(
-          stream: _db.collection('Pet_Profile').snapshots(),
+          stream: _db.collection("user").doc(userId).collection('Pet_Profile').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -131,7 +123,7 @@ class _NotePageState extends State<NotePage> {
                                         tooltip: 'Delete this record',
                                         onPressed: () {
                                           FirebaseFirestore.instance
-                                              .collection('Pet_Profile').doc(petdocid).update({'Note':FieldValue.arrayRemove([petnotelist[_index]])});
+                                              .collection("user").doc(userId).collection('Pet_Profile').doc(petdocid).update({'Note':FieldValue.arrayRemove([petnotelist[_index]])});
                                         },
                                       ),
                                     ]

@@ -1,16 +1,12 @@
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-// import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-// import 'package:firebase_core/firebase_core.dart';
-// import 'dropdownsex.dart';
-// import 'datepicker.dart';
+import 'authentication.dart';
 
 class AddProfilePage extends StatefulWidget {
   const AddProfilePage({Key? key}) : super(key: key);
@@ -335,7 +331,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
       "Note": FieldValue.arrayUnion(notelist),
     };
 
-    FirebaseFirestore.instance.collection('Pet_Profile').add(_petprofile);
+    FirebaseFirestore.instance.collection("user").doc(userId).collection('Pet_Profile').add(_petprofile);
     Navigator.pop(context,true);
   }
 
