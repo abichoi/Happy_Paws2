@@ -6,6 +6,8 @@ import 'Homepage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'Shoppage.dart';
 import 'Storagepage.dart';
+import 'ToDoPage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
@@ -48,6 +50,7 @@ class BottomNavWidget extends StatelessWidget {
 List<Widget> _buildScreens() {
   return [
     HomePage(),
+    ToDoPage(),
     AppointmentPage(),
     StoragePage(),
     ShopPage()
@@ -59,6 +62,12 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.home),
       title: ("Home"),
+      activeColorPrimary: Colors.lightBlue,
+      inactiveColorPrimary: Colors.black45,
+    ),
+    PersistentBottomNavBarItem(
+      icon: const Icon(FontAwesomeIcons.listCheck),
+      title: ("To-Do"),
       activeColorPrimary: Colors.lightBlue,
       inactiveColorPrimary: Colors.black45,
     ),

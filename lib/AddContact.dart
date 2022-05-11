@@ -257,6 +257,7 @@ class _addcontactpageState extends State<addcontactpage> {
     };
 
     FirebaseFirestore.instance.collection("user").doc(userId).collection('Contact').add(_contact);
+    Navigator.pop(context,true);
   }
 
 

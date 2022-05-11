@@ -11,10 +11,6 @@ class UserPage extends StatefulWidget {
 
 
 class _UserPageState extends State<UserPage> {
-  static const TextStyle leftdetailstyle =
-  TextStyle(fontSize:18, fontWeight: FontWeight.bold, color: Colors.black);
-  static const TextStyle rightdetailstyle =
-  TextStyle(fontSize:18,fontWeight: FontWeight.normal, color: Colors.black);
 
   @override
   Widget build(BuildContext context) {

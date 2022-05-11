@@ -182,6 +182,8 @@ class _ContactList extends StatelessWidget {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, _index) {
                     DocumentSnapshot _contact = snapshot.data!.docs[_index];
+                    String _docid = snapshot.data!.docs[_index].reference.id;
+
                     if (_contact.get('selectedGroomer') == 'true') {
                       catagorylist.add('Groomer');
                     } else{
@@ -218,6 +220,16 @@ class _ContactList extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children:[
                                   Text(_contact.get('name')),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete_outline),
+                                    tooltip: 'Delete this item',
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection("user").doc(userId)
+                                          .collection('Contact').doc(_docid)
+                                          .delete();
+                                    },
+                                  ),
                                   IconButton(
                                     icon: const Icon(Icons.mode_edit_outline_outlined ),
                                     iconSize: 30,
