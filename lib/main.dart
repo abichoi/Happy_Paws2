@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:petapp2/Homepage.dart';
-import 'Navigation.dart';
 import 'firebase_options.dart';
 import 'Login.dart';
-import 'Register.dart';
 
-//
-void main() async{
+//main page, start with login page
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'HappyPaws',
       home: LoginPage(),
     );

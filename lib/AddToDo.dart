@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'authentication.dart';
 
-class addtodopage extends StatefulWidget {
-  const addtodopage({Key? key}) : super(key: key);
+//add to do
+
+class addToDoPage extends StatefulWidget {
+  const addToDoPage({Key? key}) : super(key: key);
 
   @override
-  State<addtodopage> createState() => _addtodopageState();
+  State<addToDoPage> createState() => _addToDoPageState();
 }
 
-
-class _addtodopageState extends State<addtodopage> {
+class _addToDoPageState extends State<addToDoPage> {
   final _formKey = GlobalKey<FormState>();
   final _item = TextEditingController();
 
@@ -21,17 +22,16 @@ class _addtodopageState extends State<addtodopage> {
             title: const Text("Add To-Do"),
             elevation: 0,
             flexibleSpace: Container(
-              decoration:  const BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Color(0xFF92FF4F), Color(0xFF00D1FF)],
                 ),
               ),
-            )
-        ),
+            )),
         body: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -40,9 +40,7 @@ class _addtodopageState extends State<addtodopage> {
                   TextFormField(
                     controller: _item,
                     decoration: const InputDecoration(
-                        hintText: 'Enter the item',
-                        labelText: 'item'
-                    ),
+                        hintText: 'Enter the item', labelText: 'item'),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter the item';
@@ -52,7 +50,7 @@ class _addtodopageState extends State<addtodopage> {
                   ),
                   Align(
                       alignment: Alignment.centerRight,
-                      child:Padding(
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -60,32 +58,30 @@ class _addtodopageState extends State<addtodopage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              _savetodo();
+                              _saveToDo();
                             }
                           },
                           child: const Text('Submit'),
                         ),
-                      )
-                  ),
+                      )),
                 ],
               ),
             )));
   }
-
-  void _savetodo() {
+//save to do item detail to firestore
+  void _saveToDo() {
     String item = _item.text;
-
 
     Map<String, String> _todo = {
       'item': item,
       'selected': 'false',
     };
 
-    FirebaseFirestore.instance.collection("user").doc(userId).collection('ToDo').add(_todo);
-    Navigator.pop(context,true);
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(userId)
+        .collection('ToDo')
+        .add(_todo);
+    Navigator.pop(context, true);
   }
-
-
-
-
 }

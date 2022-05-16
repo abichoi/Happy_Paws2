@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'authentication.dart';
+
+//add storage
 
 class AddStoragePage extends StatefulWidget {
   const AddStoragePage({Key? key}) : super(key: key);
@@ -14,16 +15,12 @@ class AddStoragePage extends StatefulWidget {
   State<AddStoragePage> createState() => _AddStorageState();
 }
 
-
 class _AddStorageState extends State<AddStoragePage> {
-  // late DatabaseReference _ref;
-  // late String _uploadedFileURL;
   late String returnURL;
-  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
   File? _photo;
-  // late Future<PickedPhoto?> _photo = Future.value(null);
   final ImagePicker _picker = ImagePicker();
-  String _formattedDate = '';
   final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   int _quantity = 0;
@@ -37,17 +34,16 @@ class _AddStorageState extends State<AddStoragePage> {
             title: const Text("Add Storage"),
             elevation: 0,
             flexibleSpace: Container(
-              decoration:  const BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.pink,Colors.deepPurple],
+                  colors: [Colors.pink, Colors.deepPurple],
                 ),
               ),
-            )
-        ),
+            )),
         body: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -55,18 +51,25 @@ class _AddStorageState extends State<AddStoragePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                        child: _photo == null ? const Text('No Image Showing') : Image.file(_photo!)
-                    ),
+                        child: _photo == null
+                            ? const Text('Please select an image',
+                                style:
+                                    TextStyle(fontSize: 25, color: Colors.red))
+                            : Image.file(_photo!)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton.icon(
                             onPressed: () => imgFromCamera(),
                             icon: const Icon(Icons.camera),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurple),
                             label: const Text('camera')),
                         ElevatedButton.icon(
                             onPressed: () => imgFromGallery(),
                             icon: const Icon(Icons.library_add),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurple),
                             label: const Text('Gallery')),
                       ],
                     ),
@@ -95,19 +98,19 @@ class _AddStorageState extends State<AddStoragePage> {
                                   primary: const Color(0xFF979797),
                                   fixedSize: const Size(30, 30),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.all(0),
                                   minimumSize: const Size(0, 0),
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                onPressed: (){
-                                  if(_quantity != 0) {
+                                onPressed: () {
+                                  if (_quantity != 0) {
                                     setState(() {
                                       _quantity--;
                                     });
                                   }
-                                  },
+                                },
                                 child: const Icon(Icons.remove),
                               ),
                               Container(
@@ -119,23 +122,22 @@ class _AddStorageState extends State<AddStoragePage> {
                                   primary: const Color(0xFF979797),
                                   fixedSize: const Size(30, 30),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.all(0),
                                   minimumSize: const Size(0, 0),
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {
                                   setState(() {
                                     _quantity++;
                                   });
-                                  },
+                                },
                                 child: const Icon(Icons.add),
                               ),
-
-
-                        ],
-                    )]),
+                            ],
+                          )
+                        ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -145,13 +147,12 @@ class _AddStorageState extends State<AddStoragePage> {
                             onChanged: (value) {
                               setState(() {
                                 _quantityalert = value;
-                                print(_quantityalert);
+                                // print(_quantityalert);
                               });
                             },
                             activeTrackColor: Colors.lightGreenAccent,
                             activeColor: Colors.green,
                           ),
-
                         ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,14 +165,14 @@ class _AddStorageState extends State<AddStoragePage> {
                                   primary: const Color(0xFF979797),
                                   fixedSize: const Size(30, 30),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.all(0),
                                   minimumSize: const Size(0, 0),
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                onPressed: (){
-                                  if(_threshold != 0) {
+                                onPressed: () {
+                                  if (_threshold != 0) {
                                     setState(() {
                                       _threshold--;
                                     });
@@ -188,11 +189,11 @@ class _AddStorageState extends State<AddStoragePage> {
                                   primary: const Color(0xFF979797),
                                   fixedSize: const Size(30, 30),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.all(0),
                                   minimumSize: const Size(0, 0),
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -201,17 +202,17 @@ class _AddStorageState extends State<AddStoragePage> {
                                 },
                                 child: const Icon(Icons.add),
                               ),
-
-
                             ],
-                          )]),
-
+                          )
+                        ]),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.deepPurple),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _savePetProfile();
+                            _saveStorage();
                           }
                         },
                         child: const Text('Submit'),
@@ -220,8 +221,7 @@ class _AddStorageState extends State<AddStoragePage> {
                   ],
                 ),
               ),
-            ))
-    );
+            )));
   }
 
   Future imgFromGallery() async {
@@ -232,7 +232,7 @@ class _AddStorageState extends State<AddStoragePage> {
         _photo = File(pickedFile.path);
         uploadFile();
       } else {
-        print('No image selected.');
+        // print('No image selected.');
       }
     });
   }
@@ -245,7 +245,7 @@ class _AddStorageState extends State<AddStoragePage> {
         _photo = File(pickedFile.path);
         uploadFile();
       } else {
-        print('No image selected.');
+        // print('No image selected.');
       }
     });
   }
@@ -260,17 +260,16 @@ class _AddStorageState extends State<AddStoragePage> {
           .ref(destination)
           .child(fileName);
       await reference.putFile(_photo!);
-      print('File Uploaded');
+      // print('File Uploaded');
       await reference.getDownloadURL().then((fileURL) {
-        returnURL =  fileURL;
+        returnURL = fileURL;
       });
     } catch (e) {
-      print('error');
+      // print('error');
     }
   }
-
-
-  void _savePetProfile() {
+//save storage details to firestore
+  void _saveStorage() {
     String name = _name.text;
     String quantity = _quantity.toString();
     String quantityalert = _quantityalert.toString();
@@ -284,8 +283,11 @@ class _AddStorageState extends State<AddStoragePage> {
       'img': returnURL
     };
 
-    FirebaseFirestore.instance.collection("user").doc(userId).collection('Storage').add(_storage);
-    Navigator.pop(context,true);
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(userId)
+        .collection('Storage')
+        .add(_storage);
+    Navigator.pop(context, true);
   }
-
 }

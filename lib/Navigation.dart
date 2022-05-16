@@ -9,6 +9,8 @@ import 'Storagepage.dart';
 import 'ToDoPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+//the bottom navigation bar
+
 PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
 class BottomNavWidget extends StatelessWidget {
@@ -22,39 +24,33 @@ class BottomNavWidget extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
-      handleAndroidBackButtonPress: true, // Default is true.
-      resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
-      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      backgroundColor: Colors.white,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(10.0),
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
+      itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+      screenTransitionAnimation: const ScreenTransitionAnimation(
         animateTabTransition: true,
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style3, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style3,
     );
   }
 }
 
 List<Widget> _buildScreens() {
-  return [
-    HomePage(),
-    ToDoPage(),
-    AppointmentPage(),
-    StoragePage(),
-    ShopPage()
-  ];
+  return [HomePage(), ToDoPage(), AppointmentPage(), StoragePage(), ShopPage()];
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -91,95 +87,3 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     ),
   ];
 }
-
-
-// class BottomNavWidget extends StatefulWidget {
-//   const BottomNavWidget({Key? key}) : super(key: key);
-//
-//   @override
-//   State<BottomNavWidget> createState() => _BottomNavWidgetState();
-// }
-// int _selectedIndex = 0;
-//
-// class _BottomNavWidgetState extends State<BottomNavWidget> {
-//   static const TextStyle optionStyle =
-//   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-//   static const List<Widget> _widgetOptions = <Widget>[
-//     Text('Home', style: optionStyle,),
-//     Text('Appointment', style: optionStyle,),
-//     Text('Storage',style: optionStyle,),
-//     Text('Shop', style: optionStyle, ),
-//   ];
-//
-//   final _PageOption = [
-//     HomePage(),
-//     const Text('Appointment', style: optionStyle,),
-//     const Text('Storage',style: optionStyle,),
-//     const Text('Shop', style: optionStyle, ),
-//   ];
-//
-//   final _colorOptions = [
-//     [Colors.white,Colors.white], //Home
-//     [Colors.yellow,Colors.orange], //Appointment
-//     [Colors.pink,Colors.deepPurple], //Storage
-//     [Colors.greenAccent,Colors.indigoAccent], //Shop
-//   ];
-//
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//           title: _widgetOptions.elementAt(_selectedIndex),
-//           elevation: 0,
-//           flexibleSpace: Container(
-//             decoration:  BoxDecoration(
-//               gradient: LinearGradient(
-//                 begin: Alignment.topCenter,
-//                 end: Alignment.bottomCenter,
-//                 colors: _colorOptions.elementAt(_selectedIndex),
-//               ),
-//             ),
-//           )
-//       ),
-//       body: Center(
-//         child: _PageOption.elementAt(_selectedIndex),
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         type: BottomNavigationBarType.fixed,
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             label: 'Home',
-//             backgroundColor: Colors.white,
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.calendar_today_outlined),
-//             label: 'Appointment',
-//             backgroundColor: Colors.white,
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Boxicons.bxs_package),
-//             label: 'Storage',
-//             backgroundColor: Colors.white,
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.shopping_cart_outlined),
-//             label: 'Shop',
-//             backgroundColor: Colors.white,
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: Colors.lightBlue,
-//         unselectedItemColor: Colors.black,
-//         showUnselectedLabels: true,
-//         onTap: _onItemTapped,
-//       ),
-//     );
-//   }
-// }
