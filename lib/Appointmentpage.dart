@@ -6,11 +6,7 @@ import 'AddAppointment.dart';
 import 'EditAppointment.dart';
 import 'authentication.dart';
 
-//appointment page: show calendar, show appointments, add appointment
-
 class AppointmentPage extends StatefulWidget {
-  const AppointmentPage({Key? key}) : super(key: key);
-
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();
 }
@@ -61,6 +57,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
               _selectedDay = selectedDay;
               _formattedselectedDay =
                   DateFormat('yyyy-MM-dd').format(_selectedDay);
+              print(_formattedselectedDay);
               _focusedDay = focusedDay;
             });
           },
@@ -95,9 +92,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                             DateTime _startdate =
                                 DateTime.parse(_appointment.get("startdate"));
                             DateTime _enddate =
-                                DateTime.parse(_appointment.get("enddate"));
-                            DateTime _selecteddate =
-                                DateTime.parse(_formattedselectedDay);
+                                DateTime.parse(_appointment.get("enddate")).add(const Duration(days: 1));
+                            print(_appointment.get("enddate").runtimeType);
+                            DateTime _selecteddate =_selectedDay;
                             return Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -245,15 +242,21 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         )));
               }
             }),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+        //   child:
+
+        // )
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const AddAppointmentPage()),
+            MaterialPageRoute(builder: (_) => AddAppointmentPage()),
           );
         },
         child: const Icon(Icons.add),
+        // color: Colors.white,
         backgroundColor: Colors.orange,
         tooltip: 'Add Appointment',
       ),
