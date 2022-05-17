@@ -1,6 +1,9 @@
 # Happy Paws
 It is important for pet owners to keep track of their pet’s health. However, it could be difficult as time passes with more and more medical record. This is why an app is needed to keep all the records organized.
 
+## Demonstration Video
+https://youtu.be/ZLUHaDqDm3A
+
 ## Functions
 In this app, users can store:
   - Pets' Details
@@ -80,7 +83,50 @@ Users can store the following details:
 ### 5. Shop  
 On this page, users can view a list of selected online pet shops. By tapping on to the tiles, the website of that pet shop will pop up.
 
+## How to run in Flutter
+1. Install Flutter
+2. Clone this repo
+'''
+git clone https://github.com/abichoi/Happy_Paws2.git
+'''
+4. Set up Firebase --> https://console.firebase.google.com.
+- Sign in to Firebase
+- Create a project
+- Enable email sign-in for Firebase Authentication
+- Enable Cloud Firestore
+- Create database
+6. Add Firebase to the Flutter App --> https://firebase.google.com/docs/flutter/setup?platform=android
+7. Import all libraries below:
+  flutter_boxicons: ^3.0.0
+  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.15
+  firebase_storage: ^10.2.13
+  cloud_firestore: ^3.1.13
+  image_picker: ^0.8.5
+  font_awesome_flutter: ^10.1.0
+  persistent_bottom_nav_bar: ^4.0.2
+  intl: ^0.17.0
+  table_calendar: ^3.0.5
+  url_launcher: ^6.1.0
+
 ## Initial Repo
 https://github.com/abichoi/Happy_Paws  
 For unknow reason the project in the inital repo could not run the Emulator. But with the same code but in a new project the emulator is running normally.  
 The inital repo is kept for the record of the first three commit.
+
+## Initial Idea
+![image](https://user-images.githubusercontent.com/91946874/168743686-af7243c0-f1ad-4d66-86c9-2c5a653829a0.png)
+![image](https://user-images.githubusercontent.com/91946874/168743988-f1b6d24c-3e71-47ee-91e3-bc76104affec.png)
+![image](https://user-images.githubusercontent.com/91946874/168744101-86792173-8bb7-4b87-a3a5-ec0b11b6178a.png)
+![image](https://user-images.githubusercontent.com/91946874/168744154-fc5ddef4-b016-4d44-9350-d43b213c0ecb.png)
+![image](https://user-images.githubusercontent.com/91946874/168744194-97898dbc-2d86-4ea7-9325-17ba85a5a1a8.png)
+![image](https://user-images.githubusercontent.com/91946874/168744226-214bd010-f26a-4a08-95ff-5af7a36d5ee2.png)
+![image](https://user-images.githubusercontent.com/91946874/168744264-7555073f-ddd6-4ceb-8f58-132d9554627e.png)
+![image](https://user-images.githubusercontent.com/91946874/168744309-79e5c9eb-37d4-45ae-bf90-36ae6749930b.png)
+![image](https://user-images.githubusercontent.com/91946874/168744350-fac8bd2d-ac7b-4a88-bf01-225ad240acd1.png)
+![image](https://user-images.githubusercontent.com/91946874/168744387-acdd08f0-dc2b-43a1-a0b8-7fb203e3c8dd.png)
+![image](https://user-images.githubusercontent.com/91946874/168744436-4bb582bd-3bea-4d75-8850-af34823472d0.png)
+
+
+
+
