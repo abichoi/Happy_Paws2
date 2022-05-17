@@ -113,3 +113,20 @@ git clone https://github.com/abichoi/Happy_Paws2.git
 https://github.com/abichoi/Happy_Paws  
 For unknow reason the project in the inital repo could not run the Emulator. But with the same code but in a new project the emulator is running normally.  
 The inital repo is kept for the record of the first three commit.
+
+## Initial Idea
+![image](https://user-images.githubusercontent.com/91946874/168743686-af7243c0-f1ad-4d66-86c9-2c5a653829a0.png)
+![image](https://user-images.githubusercontent.com/91946874/168743988-f1b6d24c-3e71-47ee-91e3-bc76104affec.png)
+![image](https://user-images.githubusercontent.com/91946874/168744101-86792173-8bb7-4b87-a3a5-ec0b11b6178a.png)
+![image](https://user-images.githubusercontent.com/91946874/168744154-fc5ddef4-b016-4d44-9350-d43b213c0ecb.png)
+![image](https://user-images.githubusercontent.com/91946874/168744194-97898dbc-2d86-4ea7-9325-17ba85a5a1a8.png)
+![image](https://user-images.githubusercontent.com/91946874/168744226-214bd010-f26a-4a08-95ff-5af7a36d5ee2.png)
+![image](https://user-images.githubusercontent.com/91946874/168744264-7555073f-ddd6-4ceb-8f58-132d9554627e.png)
+![image](https://user-images.githubusercontent.com/91946874/168744309-79e5c9eb-37d4-45ae-bf90-36ae6749930b.png)
+![image](https://user-images.githubusercontent.com/91946874/168744350-fac8bd2d-ac7b-4a88-bf01-225ad240acd1.png)
+![image](https://user-images.githubusercontent.com/91946874/168744387-acdd08f0-dc2b-43a1-a0b8-7fb203e3c8dd.png)
+![image](https://user-images.githubusercontent.com/91946874/168744436-4bb582bd-3bea-4d75-8850-af34823472d0.png)
+
+
+
+
