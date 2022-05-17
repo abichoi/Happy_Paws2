@@ -1,6 +1,9 @@
 # Happy Paws
 It is important for pet owners to keep track of their pet’s health. However, it could be difficult as time passes with more and more medical record. This is why an app is needed to keep all the records organized.
 
+## Demonstration Video
+
+
 ## Functions
 In this app, users can store:
   - Pets' Details
@@ -79,6 +82,32 @@ Users can store the following details:
 
 ### 5. Shop  
 On this page, users can view a list of selected online pet shops. By tapping on to the tiles, the website of that pet shop will pop up.
+
+## How to run in Flutter
+1. Install Flutter
+2. Clone this repo
+'''
+git clone https://github.com/abichoi/Happy_Paws2.git
+'''
+4. Set up Firebase --> https://console.firebase.google.com.
+- Sign in to Firebase
+- Create a project
+- Enable email sign-in for Firebase Authentication
+- Enable Cloud Firestore
+- Create database
+6. Add Firebase to the Flutter App --> https://firebase.google.com/docs/flutter/setup?platform=android
+7. Import all libraries below:
+  flutter_boxicons: ^3.0.0
+  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.15
+  firebase_storage: ^10.2.13
+  cloud_firestore: ^3.1.13
+  image_picker: ^0.8.5
+  font_awesome_flutter: ^10.1.0
+  persistent_bottom_nav_bar: ^4.0.2
+  intl: ^0.17.0
+  table_calendar: ^3.0.5
+  url_launcher: ^6.1.0
 
 ## Initial Repo
 https://github.com/abichoi/Happy_Paws  
