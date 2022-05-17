@@ -5,22 +5,23 @@ It is important for pet owners to keep track of their pet’s health. However, i
 https://youtu.be/ZLUHaDqDm3A
 
 ## Functions
-In this app, users can store:
-  - Pets' Details
-    - Basic: Name, breed, date of birth, etc.
-    - Vaccine History
-    - Medical Records
-    - Notes
-  - Contacts of pet shops. pet hotels, vets, etc.
-  - To-Do List
-  - Appointment
-  - Storage
-    - Such as how many food the users have
-  - Pet shop
+In this app, users can store:  
+  - Pets' Details  
+    - Basic: Name, breed, date of birth, etc.  
+    - Vaccine History  
+    - Medical Records  
+    - Notes  
+  - Contacts of pet shops. pet hotels, vets, etc.  
+  - To-Do List  
+  - Appointment  
+  - Storage  
+    - Such as how many food the users have  
+  - Pet shop  
  
-## Structure
-Common icon: Pen => Edit  Bin => Delete
-There are 5 main pages on this app: Home, To-Do, Appointment, Storage, Shop
+## Structure  
+Common icon: Pen => Edit     Bin => Delete  
+There are 5 main pages on this app: Home, To-Do, Appointment, Storage, Shop  
+  
 ### 0. Sign in/ Register
 When the app is started, it will display a login page for the user to enter their email and password. If the user doesn't have an account, the user can tap on the "Don't have an account?" text and register an account.  
 
@@ -78,17 +79,17 @@ Users can store the following details:
 - Name  
 - Quantity  
 - Quantity Alert  
-- Quantity Alert Threshold   
+- Quantity Alert Threshold    
 
-### 5. Shop  
-On this page, users can view a list of selected online pet shops. By tapping on to the tiles, the website of that pet shop will pop up.
+### 5. Shop   
+On this page, users can view a list of selected online pet shops. By tapping on to the tiles, the website of that pet shop will pop up.  
 
-## How to run in Flutter
-1. Install Flutter
-2. Clone this repo
-'''
+## How to run in Flutter  
+1. Install Flutter  
+2. Clone this repo    
+```
 git clone https://github.com/abichoi/Happy_Paws2.git
-'''
+```
 4. Set up Firebase --> https://console.firebase.google.com.
 - Sign in to Firebase
 - Create a project
@@ -97,6 +98,7 @@ git clone https://github.com/abichoi/Happy_Paws2.git
 - Create database
 6. Add Firebase to the Flutter App --> https://firebase.google.com/docs/flutter/setup?platform=android
 7. Import all libraries below:
+  cupertino_icons: ^1.0.2
   flutter_boxicons: ^3.0.0
   firebase_core: ^1.15.0
   firebase_auth: ^3.3.15
@@ -114,7 +116,7 @@ https://github.com/abichoi/Happy_Paws
 For unknow reason the project in the inital repo could not run the Emulator. But with the same code but in a new project the emulator is running normally.  
 The inital repo is kept for the record of the first three commit.
 
-## Initial Idea
+## Initial Design
 ![image](https://user-images.githubusercontent.com/91946874/168743686-af7243c0-f1ad-4d66-86c9-2c5a653829a0.png)
 ![image](https://user-images.githubusercontent.com/91946874/168743988-f1b6d24c-3e71-47ee-91e3-bc76104affec.png)
 ![image](https://user-images.githubusercontent.com/91946874/168744101-86792173-8bb7-4b87-a3a5-ec0b11b6178a.png)
