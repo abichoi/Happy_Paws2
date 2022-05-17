@@ -26,6 +26,7 @@ class _EditStoragePageState extends State<EditStoragePage> {
   final _name = TextEditingController();
   int _quantity = -1;
   int _threshold = -1;
+  bool _gotalertyet = false;
   bool _quantityalert = true;
   final _db = FirebaseFirestore.instance;
   String _docid = '';
@@ -71,6 +72,10 @@ class _EditStoragePageState extends State<EditStoragePage> {
                         }
                         if (_threshold == -1) {
                           _threshold = int.parse(_storage.get("threshold"));
+                        }
+                        if (_gotalertyet == false){
+                          _quantityalert = _storage.get("quantityalert") == 'true' ? true : false;
+                          _gotalertyet = true;
                         }
                         return Form(
                           key: _formKey,

@@ -17,10 +17,9 @@ var storageindex = 0;
 
 class _StoragePageState extends State<StoragePage> {
   final _db = FirebaseFirestore.instance;
-  int _quantity = 0;
-  int _threshold = 0;
-  bool _quantityalert = false;
-  String _docid = '';
+  List _quantity = [];
+  List _threshold = [];
+  List _quantityalert = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +58,22 @@ class _StoragePageState extends State<StoragePage> {
                         itemBuilder: (context, _index) {
                           DocumentSnapshot _storage =
                               snapshot.data!.docs[_index];
-                          _docid =
-                              snapshot.data!.docs[storageindex].reference.id;
-                          _quantity = int.parse(_storage.get("quantity"));
-                          _threshold = int.parse(_storage.get("threshold"));
-                          _quantityalert =
+
+                          if(_quantity.length < snapshot.data!.docs.length){
+                            _quantity.add(0);
+                            _threshold.add(0);
+                            _quantityalert.add(0);
+                          }
+
+                          _quantity[_index] = int.parse(_storage.get("quantity"));
+                          _threshold[_index] = int.parse(_storage.get("threshold"));
+                          _quantityalert[_index] =
                               _storage.get("quantityalert") == "true"
                                   ? true
                                   : false;
                           return Card(
-                              shape: _quantityalert == true
-                                  ? _quantity <= _threshold
+                              shape: _quantityalert[_index] == true
+                                  ? int.parse(_storage.get("quantity")) <= _threshold[_index]
                                       ? RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
@@ -144,6 +148,19 @@ class _StoragePageState extends State<StoragePage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
+                                              IconButton(
+                                                icon:
+                                                const Icon(Icons.delete_outline),
+                                                tooltip: 'Delete this item',
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection("user")
+                                                      .doc(userId)
+                                                      .collection('Storage')
+                                                      .doc(snapshot.data!.docs[_index].reference.id)
+                                                      .delete();
+                                                },
+                                              ),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                   primary:
@@ -161,17 +178,19 @@ class _StoragePageState extends State<StoragePage> {
                                                           .shrinkWrap,
                                                 ),
                                                 onPressed: () {
-                                                  if (_quantity != 0) {
+                                                  if (_quantity[_index] != 0) {
                                                     setState(() {
-                                                      _quantity--;
+                                                      _quantity[_index]--;
+                                                      print(_quantity);
+                                                      print(_quantity[_index]);
                                                       FirebaseFirestore.instance
                                                           .collection("user")
                                                           .doc(userId)
                                                           .collection('Storage')
-                                                          .doc(_docid)
+                                                          .doc(snapshot.data!.docs[_index].reference.id)
                                                           .update({
                                                         "quantity":
-                                                            _quantity.toString()
+                                                        (_quantity[_index]).toString()
                                                       });
                                                     });
                                                   }
@@ -182,7 +201,7 @@ class _StoragePageState extends State<StoragePage> {
                                                 margin:
                                                     const EdgeInsets.all(10),
                                                 child:
-                                                    Text(_quantity.toString()),
+                                                    Text(int.parse(_storage.get("quantity")).toString()),
                                               ),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
@@ -202,15 +221,17 @@ class _StoragePageState extends State<StoragePage> {
                                                 ),
                                                 onPressed: () {
                                                   setState(() {
-                                                    _quantity++;
+                                                    _quantity[_index]++;
+                                                    print(_quantity);
+                                                    print(_quantity[_index]);
                                                     FirebaseFirestore.instance
                                                         .collection("user")
                                                         .doc(userId)
                                                         .collection('Storage')
-                                                        .doc(_docid)
+                                                        .doc(snapshot.data!.docs[_index].reference.id)
                                                         .update({
                                                       "quantity":
-                                                          _quantity.toString()
+                                                      (_quantity[_index]).toString()
                                                     });
                                                   });
                                                 },

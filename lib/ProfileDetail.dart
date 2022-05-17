@@ -243,10 +243,13 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                       )),
                   Padding(
                       padding: const EdgeInsets.only(left: 40.0),
-                      child: Text(
+                      child: Container(
+                          constraints: const BoxConstraints(
+                              minWidth: 150, maxWidth: 150),
+                          child: Text(
                         _pet.get("vet"),
                         style: rightdetailstyle,
-                      )),
+                      ))),
                 ]),
                 const Divider(
                   color: Colors.black,

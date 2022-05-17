@@ -36,7 +36,7 @@ class _VaccinePageState extends State<VaccinePage> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF4F60FF), Color(0xFF24DEEA)],
+                  colors: [Color(0xFFBC4FFF), Color(0xFF24DEEA)],
                 ),
               ),
             )),
