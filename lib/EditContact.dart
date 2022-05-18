@@ -109,7 +109,8 @@ class _EditContactPageState extends State<EditContactPage> {
                                           fontSize: 15,
                                           color: Colors.black54)),
                                 ),
-                                FilterChip(
+                          Wrap(spacing: 20, children: [
+                            FilterChip(
                                     label: const Text('Groomer'),
                                     selected: _selectedGroomer,
                                     showCheckmark: false,
@@ -214,7 +215,7 @@ class _EditContactPageState extends State<EditContactPage> {
                                       setState(() {
                                         _selectedOther = !_selectedOther;
                                       });
-                                    }),
+                                    })]),
                                 TextFormField(
                                   controller: _phone,
                                   decoration: const InputDecoration(
